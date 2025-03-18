@@ -15,5 +15,6 @@ import java.util.List;
 public class Candidate extends User {
     @OneToMany(mappedBy = "candidate")
     List<Application> applications;
-
+    @OneToMany(mappedBy = "candidate")
+    List<Resume> resume;
 }

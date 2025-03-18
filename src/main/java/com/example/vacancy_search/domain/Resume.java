@@ -23,5 +23,8 @@ public class Resume {
     String fileName;
     @OneToOne(mappedBy = "resume")
     Application application;
+    @ManyToOne
+    @JoinColumn(name = "candidate_id")
+    Candidate candidate;
 }
 
