@@ -1,5 +1,6 @@
 package com.example.vacancy_search.services;
 
+import com.example.vacancy_search.domain.Candidate;
 import com.example.vacancy_search.domain.Resume;
 import com.example.vacancy_search.repos.ResumeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,5 +17,8 @@ public class ResumeService {
     }
     public Optional<Resume> findById(Long id){
         return resumeRepo.findById(id);
+    }
+    public Resume findByCandidate(Candidate candidate){
+        return resumeRepo.findByCandidate(candidate);
     }
 }
