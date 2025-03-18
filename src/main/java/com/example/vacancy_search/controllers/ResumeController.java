@@ -1,7 +1,6 @@
 package com.example.vacancy_search.controllers;
 
 import com.example.vacancy_search.config.SecurityUtils;
-import com.example.vacancy_search.config.UserDetailsService;
 import com.example.vacancy_search.domain.Candidate;
 import com.example.vacancy_search.domain.Resume;
 import com.example.vacancy_search.services.ResumeService;
@@ -20,6 +19,7 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
 import java.io.IOException;
 import java.net.URLConnection;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -95,8 +95,8 @@ public class ResumeController {
     @Transactional
     public String resumeWatch(Model model) {
         Candidate candidate = (Candidate) userService.findByUsername(SecurityUtils.getCurrentUsername());
-        Resume resume = resumeService.findByCandidate(candidate);
-        model.addAttribute("resume", resume);
+        List<Resume> resumes = resumeService.findAllByCandidate(candidate);
+        model.addAttribute("resume", resumes);
         return "resumeWatch";
     }
 

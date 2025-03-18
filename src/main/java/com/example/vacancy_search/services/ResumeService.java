@@ -6,6 +6,7 @@ import com.example.vacancy_search.repos.ResumeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,7 +19,7 @@ public class ResumeService {
     public Optional<Resume> findById(Long id){
         return resumeRepo.findById(id);
     }
-    public Resume findByCandidate(Candidate candidate){
+    public List<Resume> findAllByCandidate(Candidate candidate){
         return resumeRepo.findAllByCandidate(candidate);
     }
 }
