@@ -81,5 +81,10 @@ public class ResumeController {
                 .contentType(MediaType.parseMediaType(mimeType))
                 .body(resume.getFile());
     }
+    @GetMapping("/watch")
+    public String resumeWatch(Model model) {
+        model.addAttribute("resume", new Resume());
+        return "resumeWatch";
+    }
 
 }
