@@ -95,8 +95,8 @@ public class ResumeController {
     @Transactional
     public String resumeWatch(Model model) {
         Candidate candidate = (Candidate) userService.findByUsername(SecurityUtils.getCurrentUsername());
-        List<Resume> resumes = resumeService.findAllByCandidate(candidate);
-        model.addAttribute("resume", resumes);
+        List<Resume> resume = resumeService.findAllByCandidate(candidate);
+        model.addAttribute("resumes", resume);
         return "resumeWatch";
     }
 
