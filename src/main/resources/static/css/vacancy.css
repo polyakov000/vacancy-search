@@ -1,0 +1,45 @@
+ .vacancy-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px auto;
+            max-width: 1200px;
+        }
+        .vacancy-card {
+            flex: 1 1 calc(33.333% - 40px); /* 3 карточки в ряд */
+            max-width: calc(33.333% - 40px);
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+        }
+        .vacancy-card h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .vacancy-card .salary {
+            color: green;
+            font-weight: bold;
+        }
+        .vacancy-card .description {
+            color: #555;
+        }
+        .vacancy-card .employer {
+            margin-top: 10px;
+            font-style: italic;
+            color: #777;
+        }
+        .vacancy-card .apply-button {
+            background-color: #007AFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .pagination {
+            justify-content: center;
+            margin-top: 20px;
+        }

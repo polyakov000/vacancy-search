@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            background-image: url('/fone.jpg'); /* Замените на URL вашей картинки */
+            background-size: cover; /* Покрывает весь экран */
+            background-position: center; /* Центрирует изображение */
+            background-repeat: no-repeat;
+        }
+
+        .registration-form {
+            border: 2px solid #ccc;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        .registration-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .registration-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            resize: vertical; /* Позволяет изменять размер только по вертикали */
+            min-height: 100px; /* Минимальная высота */
+        }
+
+        .registration-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .registration-form button:hover {
+            background-color: #0056b3;
+        }
+
+        .registration-form a {
+            display: block;
+            margin-top: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .registration-form a:hover {
+            text-decoration: underline;
+        }
+
+        .role-selector {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .role-selector button {
+            padding: 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            flex: 1;
+            margin: 0 5px;
+        }
+
+        .role-selector button.active {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="registration-form">
+    <h2>Регистрация</h2>
+    <div class="role-selector">
+        <button id="userButton" class="active" onclick="showUserForm()">Пользователь</button>
+        <button id="employerButton" onclick="showEmployerForm()">Организация</button>
+    </div>
+
+    <!-- Форма для пользователя -->
+    <form id="userForm" th:action="@{/signup}" method="post" accept-charset="UTF-8">
+        <input type="text" name="username" placeholder="Имя пользователя" required>
+        <input type="password" name="password" placeholder="Пароль" required>
+        <input type="email" name="email" placeholder="E-mail" required>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+
+    <!-- Форма для работодателя -->
+    <form id="employerForm" class="hidden" th:action="@{/signup/employer}" method="post" accept-charset="UTF-8">
+        <input type="text" name="username" placeholder="Имя пользователя" required>
+        <input type="password" name="password" placeholder="Пароль" required>
+        <input type="email" name="email" placeholder="E-mail" required>
+        <input type="text" name="organisation" placeholder="Организация" required>
+        <textarea name="description" placeholder="Описание" required></textarea>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+
+    <a th:href="@{/signin}">Уже есть аккаунт? Войдите</a>
+</div>
+
+<script>
+    function showUserForm() {
+        document.getElementById('userForm').classList.remove('hidden');
+        document.getElementById('employerForm').classList.add('hidden');
+        document.getElementById('userButton').classList.add('active');
+        document.getElementById('employerButton').classList.remove('active');
+    }
+
+    function showEmployerForm() {
+        document.getElementById('employerForm').classList.remove('hidden');
+        document.getElementById('userForm').classList.add('hidden');
+        document.getElementById('employerButton').classList.add('active');
+        document.getElementById('userButton').classList.remove('active');
+    }
+</script>
+
+</body>
+</html>

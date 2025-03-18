@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Создать резюме</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        textarea {
+            resize: vertical;
+            height: 100px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Создать резюме</h1>
+    <form th:action="@{/resume/create}" th:object="${resume}" method="post" enctype="multipart/form-data">
+        <!-- Поле для должности -->
+        <div>
+            <label for="position">Ваша должность</label>
+            <input type="text" id="position" th:field="*{position}" required>
+        </div>
+
+        <!-- Поле для описания -->
+        <div>
+            <label for="description">Описание</label>
+            <textarea id="description" th:field="*{description}" required></textarea>
+        </div>
+
+        <!-- Поле для опыта работы -->
+        <div>
+            <label for="workExperience">Опыт работы (лет)</label>
+            <input type="number" id="workExperience" th:field="*{workExperience}" step="0.1" required>
+        </div>
+
+        <!-- Поле для загрузки файла -->
+        <div>
+            <label for="file">Прикрепить файл</label>
+            <input type="file" id="file" name="file">
+        </div>
+
+        <!-- Кнопка для отправки формы -->
+        <button type="submit">Создать</button>
+    </form>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Создать вакансию</title>
+
+</head>
+<body>
+<h1>Создать вакансию</h1>
+<form th:action="@{create}" method="post">
+    <div>
+        <label>Должность:</label>
+        <input type="text" name="position" />
+    </div>
+    <div>
+        <label>Зарплата:</label>
+        <input type="number" name="salary" />
+    </div>
+    <div>
+        <label >Описание:</label>
+        <textarea name="description" ></textarea>
+    </div>
+    <div>
+        <button type="submit">Создать</button>
+    </div>
+</form>
+</body>
+</html>

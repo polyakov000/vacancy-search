@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Вакансии</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/vacancy.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center">Вакансии</h1>
+    <div class="vacancy-container">
+        <div class="vacancy-card" th:each="vacancy : ${vacancies}">
+            <h3 th:text="${vacancy.position}">Позиция</h3>
+            <p class="salary" th:text="${vacancy.salary} + ' руб.'">Зарплата</p>
+            <p class="description" th:text="${vacancy.description}">Описание</p>
+            <!-- Выводим ссылку на организацию работодателя -->
+            <p class="employer">
+                <a th:href="@{'/employer/' + ${vacancy.employer.ID}}" th:text="${vacancy.employer.organisation}">Работодатель</a>
+            </p>
+            <button class="apply-button">Откликнуться</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
