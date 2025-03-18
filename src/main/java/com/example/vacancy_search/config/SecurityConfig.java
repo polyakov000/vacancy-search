@@ -18,9 +18,9 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         // Пути, доступные для всех
-                        .requestMatchers("/signin", "/signup", "/signup/employer", "/vacancy/find").permitAll() // Доступ для всех
+                        .requestMatchers("/signin", "/signup", "/signup/employer", "/vacancy/find","/employer/{id}").permitAll() // Доступ для всех
                         // Пути, доступные только для кандидатов
-                        .requestMatchers("/vacancy/find","/employer/{id}").hasRole("CANDIDATE") // Доступ только для кандидатов
+                        .requestMatchers("/vacancy/find","/resume/**").hasRole("CANDIDATE") // Доступ только для кандидатов
                         // Пути, доступные только для работодателей
                         .requestMatchers("/vacancy/create").hasRole("EMPLOYER") // Доступ только для работодателей
                         // Все остальные запросы требуют аутентификации

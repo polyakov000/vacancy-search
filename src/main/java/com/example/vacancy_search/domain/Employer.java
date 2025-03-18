@@ -9,6 +9,7 @@ import java.util.List;
 @Entity
 @Table(name = "employers")
 @SuperBuilder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
