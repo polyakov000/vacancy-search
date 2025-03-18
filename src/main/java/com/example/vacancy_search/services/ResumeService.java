@@ -19,6 +19,6 @@ public class ResumeService {
         return resumeRepo.findById(id);
     }
     public Resume findByCandidate(Candidate candidate){
-        return resumeRepo.findByCandidate(candidate);
+        return resumeRepo.findAllByCandidate(candidate);
     }
 }
