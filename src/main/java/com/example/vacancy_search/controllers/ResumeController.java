@@ -1,12 +1,17 @@
 package com.example.vacancy_search.controllers;
 
+import com.example.vacancy_search.config.SecurityUtils;
+import com.example.vacancy_search.config.UserDetailsService;
+import com.example.vacancy_search.domain.Candidate;
 import com.example.vacancy_search.domain.Resume;
 import com.example.vacancy_search.services.ResumeService;
+import com.example.vacancy_search.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +28,9 @@ public class ResumeController {
 
     @Autowired
     ResumeService resumeService;
+    @Autowired
+    UserService userService;
+
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
@@ -41,10 +49,12 @@ public class ResumeController {
                                @RequestParam("workExperience") Double workExperience,
                                @RequestPart("file") MultipartFile file,
                                Model model) throws IOException {
+        Candidate candidate = (Candidate) userService.findByUsername(SecurityUtils.getCurrentUsername());
         Resume resume = Resume.builder()
                 .position(position)
                 .description(description)
                 .workExperience(workExperience)
+                .candidate(candidate)
                 .build();
 
         if (!file.isEmpty()) {
@@ -82,8 +92,11 @@ public class ResumeController {
                 .body(resume.getFile());
     }
     @GetMapping("/watch")
+    @Transactional
     public String resumeWatch(Model model) {
-        model.addAttribute("resume", new Resume());
+        Candidate candidate = (Candidate) userService.findByUsername(SecurityUtils.getCurrentUsername());
+        Resume resume = resumeService.findByCandidate(candidate);
+        model.addAttribute("resume", resume);
         return "resumeWatch";
     }
 
