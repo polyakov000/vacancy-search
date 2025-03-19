@@ -105,4 +105,35 @@ public class ResumeController {
         return "redirect:/resume/watch";
     }
 
+    @PostMapping("/edit")
+    public String resumeEdit(@RequestParam("id") Long id,
+                             @RequestParam("position") String position,
+                             @RequestParam("description") String description,
+                             @RequestParam("workExperience") Double workExperience,
+                             @RequestParam(value = "file", required = false) MultipartFile file) {
+        Resume existingResume = resumeService.findById(id)
+                .orElseThrow(() -> new RuntimeException("Резюме не найдено"));
+
+        // Обновляем существующую сущность
+        existingResume.setPosition(position);
+        existingResume.setDescription(description);
+        existingResume.setWorkExperience(workExperience);
+
+        // Если файл был загружен, обновляем его
+        if (file != null && !file.isEmpty()) {
+            try {
+                existingResume.setFile(file.getBytes());
+                existingResume.setFileName(file.getOriginalFilename());
+            } catch (IOException e) {
+                throw new RuntimeException("Ошибка при обработке файла", e);
+            }
+        }
+
+        // Сохраняем изменения
+        resumeService.save(existingResume);
+
+        return "redirect:/resume/watch";
+    }
+
+
 }
