@@ -13,4 +13,5 @@ public interface ResumeRepo extends JpaRepository<Resume, Long> {
 
     Optional<Resume> findById(Long id);
     List<Resume> findAllByCandidate(Candidate candidate);
+//    void deleteById(Long id);
 }

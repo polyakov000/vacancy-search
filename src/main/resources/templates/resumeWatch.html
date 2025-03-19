@@ -4,12 +4,45 @@
     <meta charset="UTF-8">
     <title>Мои Резюме</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Подключаем Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Стили для иконок */
+        .action-icons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .action-icons a {
+            margin-left: 10px;
+            color: #6c757d; /* Серый цвет иконок */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .action-icons a:hover {
+            color: #007bff; /* Синий цвет при наведении */
+        }
+        .card {
+            position: relative; /* Для позиционирования иконок */
+        }
+    </style>
 </head>
 <body>
 <div class="container mt-5">
     <h1>Мои Резюме</h1>
     <div th:each="resume : ${resumes}">
         <div class="card mb-3">
+            <!-- Иконки удаления и редактирования -->
+            <div class="action-icons">
+                <!-- Иконка редактирования -->
+                <a th:href="@{'/resume/edit/' + ${resume.ID}}" title="Редактировать">
+                    <i class="fas fa-pencil-alt"></i> <!-- Иконка карандаша -->
+                </a>
+                <!-- Иконка удаления -->
+                <a th:href="@{'/resume/delete/' + ${resume.ID}}" title="Удалить" onclick="return confirm('Вы уверены, что хотите удалить это резюме?');">
+                    <i class="fas fa-trash"></i> <!-- Иконка корзины -->
+                </a>
+            </div>
             <div class="card-body">
                 <h5 class="card-title" th:text="${resume.position}">Позиция</h5>
                 <p class="card-text" th:text="${resume.description}">Описание</p>

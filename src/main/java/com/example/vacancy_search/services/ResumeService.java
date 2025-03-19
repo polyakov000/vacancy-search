@@ -22,4 +22,7 @@ public class ResumeService {
     public List<Resume> findAllByCandidate(Candidate candidate){
         return resumeRepo.findAllByCandidate(candidate);
     }
+    public void deleteById(Long id){
+        resumeRepo.deleteById(id);
+    }
 }
