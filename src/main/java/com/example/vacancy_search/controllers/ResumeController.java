@@ -99,5 +99,10 @@ public class ResumeController {
         model.addAttribute("resumes", resume);
         return "resumeWatch";
     }
+    @GetMapping("/delete/{id}")
+    public String resumeDelete( @PathVariable Long id){
+        resumeService.deleteById(id);
+        return "redirect:/resume/watch";
+    }
 
 }
