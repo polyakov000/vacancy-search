@@ -2,6 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Создать резюме</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -56,6 +58,22 @@
         button:hover {
             background-color: #0056b3;
         }
+        .btn-cancel {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #6c757d;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+        .btn-cancel:hover {
+            background-color: #5a6268;
+        }
     </style>
 </head>
 <body>
@@ -90,6 +108,8 @@
         <button type="submit">Создать</button>
     </form>
 
+    <!-- Кнопка "Отмена" -->
+    <a href="/user/profile" class="btn-cancel mt-3">Отмена</a>
 </div>
 </body>
 </html>
