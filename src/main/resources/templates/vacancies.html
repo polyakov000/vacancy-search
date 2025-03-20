@@ -5,131 +5,7 @@
     <title>Вакансии</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-        body {
-            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-            font-family: 'Arial', sans-serif;
-            color: #333;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-            font-weight: bold;
-            margin-bottom: 20px;
-            animation: fadeIn 1s ease-out;
-        }
-
-        .vacancy-container {
-            margin-top: 30px;
-        }
-
-        .vacancy-card {
-            background: white;
-            border: 1px solid #ddd;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .vacancy-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .vacancy-card h3 {
-            color: #2980b9;
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
-
-        .vacancy-card .salary {
-            color: #27ae60;
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-
-        .vacancy-card .description {
-            color: #555;
-            font-size: 1em;
-            margin-top: 10px;
-        }
-
-        .vacancy-card .employer a {
-            color: #e67e22;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .vacancy-card .employer a:hover {
-            text-decoration: underline;
-        }
-
-        .apply-button {
-            display: block;
-            width: 100%;
-            background: linear-gradient(135deg, #2980b9, #2c3e50);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background 0.3s ease;
-        }
-
-        .apply-button:hover {
-            background: linear-gradient(135deg, #2c3e50, #2980b9);
-        }
-
-        .back-button-container {
-            margin-top: 30px;
-            text-align: center;
-        }
-
-        .back-button-container .btn {
-            background: linear-gradient(135deg, #e67e22, #d35400);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 1em;
-            transition: background 0.3s ease;
-        }
-
-        .back-button-container .btn:hover {
-            background: linear-gradient(135deg, #d35400, #e67e22);
-        }
-
-        /* Анимация для заголовка */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Иконки для красоты */
-        .icon {
-            margin-right: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/vacancy.css
 </head>
 <body>
 <div class="container">
@@ -143,11 +19,16 @@
             <h3 th:text="${vacancy.position}">Позиция</h3>
             <p class="salary" th:text="${vacancy.salary} + ' руб.'">Зарплата</p>
             <p class="description" th:text="${vacancy.description}">Описание</p>
-            <!-- Выводим ссылку на организацию работодателя -->
             <p class="employer">
                 <a th:href="@{'/employer/' + ${vacancy.employer.ID}}" th:text="${vacancy.employer.organisation}">Работодатель</a>
             </p>
-            <button class="apply-button">Откликнуться</button>
+            <button class="apply-button"
+                    th:data-vacancy-id="${vacancy.ID}"
+                    th:data-vacancy-position="${vacancy.position}"
+                    th:data-employer-organisation="${vacancy.employer.organisation}"
+                    onclick="openApplicationModal(this)">
+                Откликнуться
+            </button>
         </div>
     </div>
 </div>
@@ -157,5 +38,114 @@
         Назад
     </a>
 </div>
+
+<!-- Модальное окно для отклика -->
+<div id="applicationModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeApplicationModal()">&times;</span>
+        <h2>Отклик на вакансию</h2>
+        <div id="employerInfo">
+            <p id="employerName"></p> <!-- Имя работодателя -->
+            <p>Вакансия: <span id="vacancyTitle"></span></p> <!-- Название вакансии -->
+        </div>
+        <div id="chat"></div>
+        <div class="resume-list">
+            <h3>Ваши резюме:</h3>
+            <div id="resumes"></div>
+        </div>
+        <div class="message-input">
+            <input type="text" id="message" placeholder="Введите сообщение...">
+            <button onclick="sendApplication()">Отправить</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Функция для открытия модального окна
+    function openApplicationModal(button) {
+    const vacancyId = button.getAttribute('data-vacancy-id');
+    const vacancyTitle = button.getAttribute('data-vacancy-position');
+    const employerName = button.getAttribute('data-employer-organisation');
+
+    const modal = document.getElementById('applicationModal');
+    modal.style.display = 'block';
+
+    // Заполняем информацию о работодателе и вакансии
+    document.getElementById('employerName').textContent = employerName;
+    document.getElementById('vacancyTitle').textContent = vacancyTitle;
+
+    // Загружаем резюме пользователя
+    fetch('/application/resume/my')
+        .then(response => response.json())
+        .then(data => {
+            console.log("Данные от сервера:", data); // Выводим данные в консоль
+            if (!Array.isArray(data)) {
+                console.error("Ожидался массив, но получено:", data);
+                return;
+            }
+            const resumesContainer = document.getElementById('resumes');
+            resumesContainer.innerHTML = ''; // Очищаем контейнер
+            data.forEach(resume => {
+                resumesContainer.innerHTML += `
+                    <div>
+                        <input type="radio" name="resume" value="${resume.id}">
+                        <label><b>${resume.position}</b></label>
+                        <label>${resume.description}</label>
+                    </div>
+                `;
+            });
+        })
+        .catch(error => {
+            console.error("Ошибка при получении данных:", error); // Ловим ошибки
+        });
+
+    // Сохраняем ID вакансии в скрытом поле
+    document.getElementById('vacancyId').value = vacancyId;
+}
+
+    // Функция для закрытия модального окна
+    function closeApplicationModal() {
+        const modal = document.getElementById('applicationModal');
+        modal.style.display = 'none';
+    }
+
+    // Функция для отправки заявки
+    function sendApplication() {
+        const vacancyId = document.getElementById('vacancyId').value;
+        const message = document.getElementById('message').value;
+        const selectedResume = document.querySelector('input[name="resume"]:checked');
+
+        if (!selectedResume) {
+            alert('Пожалуйста, выберите резюме.');
+            return;
+        }
+
+        const resumeId = selectedResume.value;
+
+        // Отправляем данные на сервер
+        fetch('/application/send', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                vacancyId: vacancyId,
+                resumeId: resumeId,
+                message: message
+            }),
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Заявка успешно отправлена!');
+                closeApplicationModal();
+            } else {
+                alert('Ошибка при отправке заявки.');
+            }
+        });
+    }
+</script>
+
+<!-- Скрытое поле для хранения ID вакансии -->
+<input type="hidden" id="vacancyId">
 </body>
 </html>
