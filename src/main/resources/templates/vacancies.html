@@ -4,23 +4,147 @@
     <meta charset="UTF-8">
     <title>Вакансии</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="/css/vacancy.css">
 </head>
 <body>
 <div class="container">
-    <h1 class="text-center">Вакансии</h1>
+    <h1>
+        <i class="fas fa-briefcase icon"></i>
+        Вакансии
+    </h1>
     <div class="vacancy-container">
         <div class="vacancy-card" th:each="vacancy : ${vacancies}">
             <h3 th:text="${vacancy.position}">Позиция</h3>
             <p class="salary" th:text="${vacancy.salary} + ' руб.'">Зарплата</p>
             <p class="description" th:text="${vacancy.description}">Описание</p>
-            <!-- Выводим ссылку на организацию работодателя -->
             <p class="employer">
                 <a th:href="@{'/employer/' + ${vacancy.employer.ID}}" th:text="${vacancy.employer.organisation}">Работодатель</a>
             </p>
-            <button class="apply-button">Откликнуться</button>
+            <button class="apply-button"
+                    th:data-vacancy-id="${vacancy.ID}"
+                    th:data-vacancy-position="${vacancy.position}"
+                    th:data-employer-organisation="${vacancy.employer.organisation}"
+                    onclick="openApplicationModal(this)">
+                Откликнуться
+            </button>
         </div>
     </div>
 </div>
+<div class="back-button-container">
+    <a href="/user/profile" class="btn btn-primary">
+        <i class="fas fa-arrow-left icon"></i>
+        Назад
+    </a>
+</div>
+
+<!-- Модальное окно для отклика -->
+<div id="applicationModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeApplicationModal()">&times;</span>
+        <h2>Отклик на вакансию</h2>
+        <div id="employerInfo">
+            <p id="employerName"></p> <!-- Имя работодателя -->
+            <p>Вакансия: <span id="vacancyTitle"></span></p> <!-- Название вакансии -->
+        </div>
+        <div id="chat"></div>
+        <div class="resume-list">
+            <h3>Ваши резюме:</h3>
+            <div id="resumes"></div>
+        </div>
+        <div class="message-input">
+            <input type="text" id="message" placeholder="Введите сообщение...">
+            <button onclick="sendApplication()">Отправить</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Функция для открытия модального окна
+    function openApplicationModal(button) {
+    const vacancyId = button.getAttribute('data-vacancy-id');
+    const vacancyTitle = button.getAttribute('data-vacancy-position');
+    const employerName = button.getAttribute('data-employer-organisation');
+
+    const modal = document.getElementById('applicationModal');
+    modal.style.display = 'block';
+
+    // Заполняем информацию о работодателе и вакансии
+    document.getElementById('employerName').textContent = employerName;
+    document.getElementById('vacancyTitle').textContent = vacancyTitle;
+
+    // Загружаем резюме пользователя
+    fetch('/application/resume/my')
+        .then(response => response.json())
+        .then(data => {
+            console.log("Данные от сервера:", data); // Выводим данные в консоль
+            if (!Array.isArray(data)) {
+                console.error("Ожидался массив, но получено:", data);
+                return;
+            }
+            const resumesContainer = document.getElementById('resumes');
+            resumesContainer.innerHTML = ''; // Очищаем контейнер
+            data.forEach(resume => {
+                resumesContainer.innerHTML += `
+                    <div>
+                        <input type="radio" name="resume" value="${resume.id}">
+                        <label><b>${resume.position}</b></label>
+                        <label>${resume.description}</label>
+                    </div>
+                `;
+            });
+        })
+        .catch(error => {
+            console.error("Ошибка при получении данных:", error); // Ловим ошибки
+        });
+
+    // Сохраняем ID вакансии в скрытом поле
+    document.getElementById('vacancyId').value = vacancyId;
+}
+
+    // Функция для закрытия модального окна
+    function closeApplicationModal() {
+        const modal = document.getElementById('applicationModal');
+        modal.style.display = 'none';
+    }
+
+    // Функция для отправки заявки
+    function sendApplication() {
+        const vacancyId = document.getElementById('vacancyId').value;
+        const message = document.getElementById('message').value;
+        const selectedResume = document.querySelector('input[name="resume"]:checked');
+
+        if (!selectedResume) {
+            alert('Пожалуйста, выберите резюме.');
+            return;
+        }
+
+        const resumeId = selectedResume.value;
+
+        // Отправляем данные на сервер
+        fetch('/application/send', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                vacancyId: vacancyId,
+                resumeId: resumeId,
+                message: message
+            }),
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Заявка успешно отправлена!');
+                closeApplicationModal();
+            } else {
+                alert('Ошибка при отправке заявки.');
+            }
+        });
+    }
+</script>
+
+<!-- Скрытое поле для хранения ID вакансии -->
+<input type="hidden" id="vacancyId">
 </body>
 </html>
