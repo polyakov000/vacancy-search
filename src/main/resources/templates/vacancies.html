@@ -5,7 +5,7 @@
     <title>Вакансии</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="/css/vacancy.css">
+    <link rel="stylesheet" href="/css/vacancy.css
 </head>
 <body>
 <div class="container">
@@ -14,6 +14,7 @@
         Вакансии
     </h1>
     <div class="vacancy-container">
+        <!-- Карточка вакансии -->
         <div class="vacancy-card" th:each="vacancy : ${vacancies}">
             <h3 th:text="${vacancy.position}">Позиция</h3>
             <p class="salary" th:text="${vacancy.salary} + ' руб.'">Зарплата</p>

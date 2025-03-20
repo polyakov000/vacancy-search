@@ -4,35 +4,127 @@
     <meta charset="UTF-8">
     <title>Мои Резюме</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Подключаем Font Awesome для иконок -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Стили для иконок */
+        body {
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-out;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            position: relative;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            color: #2980b9;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            color: #555;
+            font-size: 1em;
+        }
+
+        .card-text strong {
+            color: #34495e;
+        }
+
         .action-icons {
             position: absolute;
             top: 10px;
             right: 10px;
         }
+
         .action-icons a {
             margin-left: 10px;
-            color: #6c757d; /* Серый цвет иконок */
+            color: #6c757d;
             text-decoration: none;
             transition: color 0.3s ease;
         }
+
         .action-icons a:hover {
-            color: #007bff; /* Синий цвет при наведении */
+            color: #007bff;
         }
-        .card {
-            position: relative; /* Для позиционирования иконок */
-        }
+
         .editable {
-            display: none; /* Скрываем редактируемые поля по умолчанию */
+            display: none;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #1abc9c, #16a085);
+            border: none;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #16a085, #1abc9c);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border: none;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2980b9, #3498db);
+            transform: translateY(-2px);
+        }
+
+        /* Анимация для появления контейнера */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Иконки для красоты */
+        .icon {
+            margin-right: 10px;
         }
     </style>
 </head>
 <body>
-<div class="container mt-5">
-    <h1>Мои Резюме</h1>
+<div class="container">
+    <h1>
+        <i class="fas fa-file-alt icon"></i>
+        Мои Резюме
+    </h1>
     <div th:each="resume : ${resumes}">
         <div class="card mb-3" th:id="'resume-' + ${resume.ID}">
             <!-- Иконки удаления и редактирования -->
@@ -45,27 +137,30 @@
                 <a th:href="@{'/resume/delete/' + ${resume.ID}}" title="Удалить" onclick="return confirm('Вы уверены, что хотите удалить это резюме?');">
                     <i class="fas fa-trash"></i> <!-- Иконка корзины -->
                 </a>
-            </div><div class="card-body">
-            <!-- Статическое отображение резюме -->
-            <div class="static-view">
-                <h5 class="card-title" th:text="${resume.position}">Позиция</h5>
-                <p class="card-text" th:text="${resume.description}">Описание</p>
-                <p class="card-text"><strong>Опыт работы:</strong> <span th:text="${resume.workExperience} + ' лет'"></span></p>
-                <p class="card-text"><strong>Файл резюме:</strong> <a th:href="@{'/resume/download/' + ${resume.ID}}" th:text="${resume.fileName}"></a></p>
             </div>
-            <!-- Редактируемые поля -->
-            <div class="editable">
-                <input type="text" class="form-control mb-2" th:id="'position-' + ${resume.ID}" th:value="${resume.position}" placeholder="Позиция">
-                <textarea class="form-control mb-2" th:id="'description-' + ${resume.ID}" placeholder="Описание" th:text="${resume.description}"></textarea>
-                <input type="number" class="form-control mb-2" th:id="'workExperience-' + ${resume.ID}" th:value="${resume.workExperience}" placeholder="Опыт работы (лет)" step="0.1">
-                <input type="file" class="form-control mb-2" th:id="'file-' + ${resume.ID}" placeholder="Выберите файл">
-                <button class="btn btn-success" th:onclick="'saveResume(event, ' + ${resume.ID} + ')'">Сохранить</button>
+            <div class="card-body">
+                <!-- Статическое отображение резюме -->
+                <div class="static-view">
+                    <h5 class="card-title" th:text="${resume.position}">Позиция</h5>
+                    <p class="card-text" th:text="${resume.description}">Описание</p>
+                    <p class="card-text"><strong>Опыт работы:</strong> <span th:text="${resume.workExperience} + ' лет'"></span></p>
+                    <p class="card-text"><strong>Файл резюме:</strong> <a th:href="@{'/resume/download/' + ${resume.ID}}" th:text="${resume.fileName}"></a></p>
+                </div>
+                <!-- Редактируемые поля -->
+                <div class="editable">
+                    <input type="text" class="form-control mb-2" th:id="'position-' + ${resume.ID}" th:value="${resume.position}" placeholder="Позиция">
+                    <textarea class="form-control mb-2" th:id="'description-' + ${resume.ID}" placeholder="Описание" th:text="${resume.description}"></textarea>
+                    <input type="number" class="form-control mb-2" th:id="'workExperience-' + ${resume.ID}" th:value="${resume.workExperience}" placeholder="Опыт работы (лет)" step="0.1">
+                    <input type="file" class="form-control mb-2" th:id="'file-' + ${resume.ID}" placeholder="Выберите файл">
+                    <button class="btn btn-success" th:onclick="'saveResume(event, ' + ${resume.ID} + ')'">Сохранить</button>
+                </div>
             </div>
-        </div>
-
         </div>
     </div>
-    <a href="/user/profile" class="btn btn-primary mt-3">Назад</a>
+    <a href="/user/profile" class="btn btn-primary mt-3">
+        <i class="fas fa-arrow-left icon"></i>
+        Назад
+    </a>
 </div>
 
 <script>
@@ -83,52 +178,52 @@
     }
 
     function saveResume(event, resumeId) {
-    event.preventDefault(); // Отменяем стандартное поведение кнопки
+        event.preventDefault(); // Отменяем стандартное поведение кнопки
 
-    const card = document.getElementById(`resume-${resumeId}`);
-    const position = document.getElementById(`position-${resumeId}`).value;
-    const description = document.getElementById(`description-${resumeId}`).value;
-    const workExperience = document.getElementById(`workExperience-${resumeId}`).value;
-    const fileInput = document.getElementById(`file-${resumeId}`);
-    const file = fileInput.files[0];
+        const card = document.getElementById(`resume-${resumeId}`);
+        const position = document.getElementById(`position-${resumeId}`).value;
+        const description = document.getElementById(`description-${resumeId}`).value;
+        const workExperience = document.getElementById(`workExperience-${resumeId}`).value;
+        const fileInput = document.getElementById(`file-${resumeId}`);
+        const file = fileInput.files[0];
 
-    // Создаем объект FormData
-    const formData = new FormData();
-    formData.append('id', resumeId);
-    formData.append('position', position);
-    formData.append('description', description);
-    formData.append('workExperience', workExperience);
-    if (file) {
-        formData.append('file', file);
-    }
-
-    // Отправляем данные на сервер
-    fetch(`/resume/edit`, {
-        method: 'POST',
-        body: formData // Отправляем FormData
-    })
-    .then(response => {
-        if (response.ok) {
-            const staticView = card.querySelector('.static-view');
-            const editableView = card.querySelector('.editable');
-
-            staticView.querySelector('.card-title').textContent = position;
-            staticView.querySelector('.card-text:nth-of-type(1)').textContent = description;
-            staticView.querySelector('.card-text:nth-of-type(2) span').textContent = workExperience + ' лет';
-
-            // Обновляем имя файла, если файл был загружен
-            if (file) {
-                staticView.querySelector('.card-text:nth-of-type(3) a').textContent = file.name;
-            }
-
-            staticView.style.display = 'block';
-            editableView.style.display = 'none';
-        } else {
-            console.error('Ошибка при сохранении');
+        // Создаем объект FormData
+        const formData = new FormData();
+        formData.append('id', resumeId);
+        formData.append('position', position);
+        formData.append('description', description);
+        formData.append('workExperience', workExperience);
+        if (file) {
+            formData.append('file', file);
         }
-    })
-    .catch(error => console.error('Ошибка:', error));
-}
+
+        // Отправляем данные на сервер
+        fetch(`/resume/edit`, {
+            method: 'POST',
+            body: formData // Отправляем FormData
+        })
+        .then(response => {
+            if (response.ok) {
+                const staticView = card.querySelector('.static-view');
+                const editableView = card.querySelector('.editable');
+
+                staticView.querySelector('.card-title').textContent = position;
+                staticView.querySelector('.card-text:nth-of-type(1)').textContent = description;
+                staticView.querySelector('.card-text:nth-of-type(2) span').textContent = workExperience + ' лет';
+
+                // Обновляем имя файла, если файл был загружен
+                if (file) {
+                    staticView.querySelector('.card-text:nth-of-type(3) a').textContent = file.name;
+                }
+
+                staticView.style.display = 'block';
+                editableView.style.display = 'none';
+            } else {
+                console.error('Ошибка при сохранении');
+            }
+        })
+        .catch(error => console.error('Ошибка:', error));
+    }
 </script>
 </body>
 </html>
