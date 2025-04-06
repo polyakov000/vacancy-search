@@ -1,0 +1,53 @@
+
+<div th:fragment="navbar(user,vacancy)">
+    <nav class="navbar navbar-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/user/profile}">
+                <i class="fas fa-user-circle icon"></i>
+                Мой профиль
+            </a>
+            <ul class="navbar-nav ml-auto flex-row">
+                <li class="nav-item" th:if="${user.role == T(com.example.vacancy_search.domain.Roles).CANDIDATE}">
+                    <a class="nav-link" th:href="@{/resume/create}">
+                        <i class="fas fa-file-alt icon"></i>
+                        Создать резюме
+                    </a>
+                </li>
+                <li class="nav-item" >
+                    <a class="nav-link" th:href="@{/vacancy/find}">
+                        <i class="fas fa-search icon"></i>
+                        Просмотреть вакансии
+                    </a>
+                </li>
+                <li class="nav-item dropdown" th:if="${user.role == T(com.example.vacancy_search.domain.Roles).CANDIDATE}">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownResume" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-folder-open icon"></i>
+                        Мои резюме
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownResume">
+                        <a class="dropdown-item" th:each="resume : ${resumes}"
+                           th:href="@{/resume/watch(id=${resume.ID})}"
+                           th:text="${resume.position}"></a>
+                    </div>
+                </li>
+                <li class="nav-item" th:if="${user.role == T(com.example.vacancy_search.domain.Roles).EMPLOYER}">
+                    <a class="nav-link" th:href="@{/vacancy/create}">
+                        <i class="fas fa-briefcase icon"></i>
+                        Добавить вакансию
+                    </a>
+                </li>
+                <li class="nav-item dropdown" th:if="${user.role == T(com.example.vacancy_search.domain.Roles).EMPLOYER}">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownVacancy" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-list-alt icon"></i>
+                        Мои вакансии
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownVacancy">
+                        <a class="dropdown-item" th:each="vacancy : ${vacancies}"
+                           th:href="@{/vacancy/my(id=${vacancy.ID})}"
+                           th:text="${vacancy.position}"></a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>

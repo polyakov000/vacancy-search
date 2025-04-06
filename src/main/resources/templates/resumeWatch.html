@@ -5,121 +5,13 @@
     <title>Мои Резюме</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-            font-family: 'Arial', sans-serif;
-            color: #333;
-        }
+    <link rel="stylesheet" href="/css/resumeWatch.css">
+    <link rel="stylesheet" href="/css/navbar.css">
 
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            animation: fadeIn 1s ease-out;
-        }
-
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .card {
-            position: relative;
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin-bottom: 20px;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .card-title {
-            color: #2980b9;
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
-
-        .card-text {
-            color: #555;
-            font-size: 1em;
-        }
-
-        .card-text strong {
-            color: #34495e;
-        }
-
-        .action-icons {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-
-        .action-icons a {
-            margin-left: 10px;
-            color: #6c757d;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .action-icons a:hover {
-            color: #007bff;
-        }
-
-        .editable {
-            display: none;
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, #1abc9c, #16a085);
-            border: none;
-            transition: background 0.3s ease, transform 0.3s ease;
-        }
-
-        .btn-success:hover {
-            background: linear-gradient(135deg, #16a085, #1abc9c);
-            transform: translateY(-2px);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            border: none;
-            transition: background 0.3s ease, transform 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #2980b9, #3498db);
-            transform: translateY(-2px);
-        }
-
-        /* Анимация для появления контейнера */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Иконки для красоты */
-        .icon {
-            margin-right: 10px;
-        }
-    </style>
 </head>
-<body>
+<!---------------------------ШАПКА---------------------------->
+<div th:replace="common/navbar :: navbar(user=${user})"></div>
+<!------------------------------------------------------------>
 <div class="container">
     <h1>
         <i class="fas fa-file-alt icon"></i>
@@ -163,67 +55,6 @@
     </a>
 </div>
 
-<script>
-    // Функция для переключения в режим редактирования
-    function editResume(event, resumeId) {
-        event.preventDefault(); // Отменяем стандартное поведение ссылки
-
-        const card = document.getElementById(`resume-${resumeId}`);
-        const staticView = card.querySelector('.static-view');
-        const editableView = card.querySelector('.editable');
-
-        // Переключаем видимость
-        staticView.style.display = 'none';
-        editableView.style.display = 'block';
-    }
-
-    function saveResume(event, resumeId) {
-        event.preventDefault(); // Отменяем стандартное поведение кнопки
-
-        const card = document.getElementById(`resume-${resumeId}`);
-        const position = document.getElementById(`position-${resumeId}`).value;
-        const description = document.getElementById(`description-${resumeId}`).value;
-        const workExperience = document.getElementById(`workExperience-${resumeId}`).value;
-        const fileInput = document.getElementById(`file-${resumeId}`);
-        const file = fileInput.files[0];
-
-        // Создаем объект FormData
-        const formData = new FormData();
-        formData.append('id', resumeId);
-        formData.append('position', position);
-        formData.append('description', description);
-        formData.append('workExperience', workExperience);
-        if (file) {
-            formData.append('file', file);
-        }
-
-        // Отправляем данные на сервер
-        fetch(`/resume/edit`, {
-            method: 'POST',
-            body: formData // Отправляем FormData
-        })
-        .then(response => {
-            if (response.ok) {
-                const staticView = card.querySelector('.static-view');
-                const editableView = card.querySelector('.editable');
-
-                staticView.querySelector('.card-title').textContent = position;
-                staticView.querySelector('.card-text:nth-of-type(1)').textContent = description;
-                staticView.querySelector('.card-text:nth-of-type(2) span').textContent = workExperience + ' лет';
-
-                // Обновляем имя файла, если файл был загружен
-                if (file) {
-                    staticView.querySelector('.card-text:nth-of-type(3) a').textContent = file.name;
-                }
-
-                staticView.style.display = 'block';
-                editableView.style.display = 'none';
-            } else {
-                console.error('Ошибка при сохранении');
-            }
-        })
-        .catch(error => console.error('Ошибка:', error));
-    }
-</script>
+<script src="/script/resumeWatch.js"></script>
 </body>
 </html>
