@@ -6,11 +6,12 @@ import com.example.vacancy_search.domain.User;
 import com.example.vacancy_search.repos.EmployerRepo;
 import com.example.vacancy_search.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 
@@ -26,6 +27,11 @@ public class ProfileController {
     public String profile(Model model, Principal principal) {
         String username = principal.getName();
         User user = userRepo.findByUsername(username);
+        System.out.println("User: " + user);
+        System.out.println("Role: " + user.getRole());
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("User roles: "+ auth.getAuthorities());
         model.addAttribute("user", user);
 
         if (user.getRole() == Roles.EMPLOYER) {

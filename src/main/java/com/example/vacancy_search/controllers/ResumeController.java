@@ -1,8 +1,10 @@
 package com.example.vacancy_search.controllers;
 
 import com.example.vacancy_search.config.SecurityUtils;
+import com.example.vacancy_search.config.UserDetailsService;
 import com.example.vacancy_search.domain.Candidate;
 import com.example.vacancy_search.domain.Resume;
+import com.example.vacancy_search.domain.User;
 import com.example.vacancy_search.services.ResumeService;
 import com.example.vacancy_search.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,7 @@ public class ResumeController {
     @GetMapping("/create")
     public String resume(Model model) {
         model.addAttribute("resume", new Resume());
+        model.addAttribute("user",userService.findByUsername(SecurityUtils.getCurrentUsername()));
         return "resume";
     }
 
@@ -56,7 +59,6 @@ public class ResumeController {
                 .workExperience(workExperience)
                 .candidate(candidate)
                 .build();
-
         if (!file.isEmpty()) {
             resume.setFile(file.getBytes()); // Сохраняем файл в базу данных
             resume.setFileName(file.getOriginalFilename()); // Сохраняем исходное имя файла
@@ -96,7 +98,9 @@ public class ResumeController {
     public String resumeWatch(Model model) {
         Candidate candidate = (Candidate) userService.findByUsername(SecurityUtils.getCurrentUsername());
         List<Resume> resume = resumeService.findAllByCandidate(candidate);
+        User user = userService.findByUsername(SecurityUtils.getCurrentUsername());
         model.addAttribute("resumes", resume);
+        model.addAttribute("user",user);
         return "resumeWatch";
     }
     @GetMapping("/delete/{id}")
