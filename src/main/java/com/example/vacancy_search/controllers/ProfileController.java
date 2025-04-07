@@ -1,10 +1,12 @@
 package com.example.vacancy_search.controllers;
 
+import com.example.vacancy_search.config.SecurityUtils;
 import com.example.vacancy_search.domain.Employer;
 import com.example.vacancy_search.domain.Roles;
 import com.example.vacancy_search.domain.User;
 import com.example.vacancy_search.repos.EmployerRepo;
 import com.example.vacancy_search.repos.UserRepo;
+import com.example.vacancy_search.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,14 +21,14 @@ import java.security.Principal;
 @RequestMapping("/user")
 public class ProfileController {
     @Autowired
-    UserRepo userRepo;
+    UserService userService;
     @Autowired
     private EmployerRepo employerRepository;
 
     @GetMapping("/profile")
     public String profile(Model model, Principal principal) {
         String username = principal.getName();
-        User user = userRepo.findByUsername(username);
+        User user = userService.findByUsername(username);
         System.out.println("User: " + user);
         System.out.println("Role: " + user.getRole());
 
@@ -40,5 +42,11 @@ public class ProfileController {
         }
 
         return "profile";
+    }
+    @GetMapping("/notifications")
+    public String notications(Model model)
+    {
+        model.addAttribute("user",userService.findByUsername(SecurityUtils.getCurrentUsername()));
+        return "notifications";
     }
 }
