@@ -5,7 +5,6 @@ import com.example.vacancy_search.domain.Employer;
 import com.example.vacancy_search.domain.Roles;
 import com.example.vacancy_search.domain.User;
 import com.example.vacancy_search.repos.EmployerRepo;
-import com.example.vacancy_search.repos.UserRepo;
 import com.example.vacancy_search.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

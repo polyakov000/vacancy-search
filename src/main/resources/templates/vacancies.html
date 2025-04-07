@@ -20,6 +20,7 @@
     <div class="vacancy-container">
         <!-- Карточка вакансии -->
         <div class="vacancy-card" th:each="vacancy : ${vacancies}">
+
             <h3 th:text="${vacancy.position}">Позиция</h3>
             <p class="salary" th:text="${vacancy.salary} + ' руб.'">Зарплата</p>
             <p class="description" th:text="${vacancy.description}">Описание</p>

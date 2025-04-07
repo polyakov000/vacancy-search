@@ -12,29 +12,29 @@
 <div th:replace="common/navbar :: navbar(user=${user},vacancy = null)"></div>
 <!------------------------------------------------------------>
 <!-- Основное содержимое -->
-<div class="main-content">
-    <h1>Мой профиль</h1>
-
-    <div class="vacancy-form">
-        <h2 class="vacancy-form-title">Создать вакансию</h2>
-        <form th:action="@{create}" method="post">
-            <div class="form-group">
-                <label>Должность:</label>
-                <input type="text" name="position" />
-            </div>
-            <div class="form-group">
-                <label>Зарплата:</label>
-                <input type="number" name="salary" />
-            </div>
-            <div class="form-group">
-                <label>Описание:</label>
-                <textarea name="description"></textarea>
-            </div>
-            <div class="form-actions">
-                <button type="submit" class="btn-submit">Создать</button>
-            </div>
-        </form>
+<div class="compact-form-container">
+    <div class="compact-form-title">
+        <i class="fas fa-file-alt"></i> <!-- Иконка документа -->
+        Создать вакансию
     </div>
+    <form action="create" method="post">
+        <div class="compact-form-group">
+            <label>Должность:</label>
+            <input type="text" name="position">
+        </div>
+        <div class="compact-form-group">
+            <label>Зарплата:</label>
+            <input type="number" name="salary">
+        </div>
+        <div class="compact-form-group">
+            <label>Описание:</label>
+            <textarea name="description"></textarea>
+        </div>
+        <div class="compact-form-actions">
+            <button type="submit" class="compact-btn">Создать</button>
+            <button type="button" class="compact-btn cancel-btn" onclick="window.location.href='/user/profile'">Отмена</button> <!-- Кнопка "Отмена" -->
+        </div>
+    </form>
 </div>
 </body>
 </html>

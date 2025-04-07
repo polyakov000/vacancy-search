@@ -1,7 +1,6 @@
 package com.example.vacancy_search.controllers;
 
 import com.example.vacancy_search.config.SecurityUtils;
-import com.example.vacancy_search.config.UserDetailsService;
 import com.example.vacancy_search.domain.Candidate;
 import com.example.vacancy_search.domain.Resume;
 import com.example.vacancy_search.domain.User;

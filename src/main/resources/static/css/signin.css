@@ -1,57 +1,95 @@
- body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            background-image: url('/fone.jpg'); /* Замените на URL вашей картинки */
-            background-size: cover; /* Покрывает весь экран */
-            background-position: center; /* Центрирует изображение */
-            background-repeat: no-repeat;
-        }
+/* Общий стиль для страницы */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-image: url('/script/fone.jpg'); /* Использование вашей картинки */
+    background-size: cover; /* Картинка покрывает весь экран */
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #fff; /* Белый текст для контраста */
+}
 
-        .login-form {
-            border: 2px solid #ccc;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
-        }
+/* Полупрозрачный слой поверх фона */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Черный прозрачный слой */
+    z-index: -1;
+}
 
-        .login-form input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
+.login-form {
+    position: relative;
+    padding: 30px; /* Увеличен padding для простора */
+    background: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый фон */
+    border-radius: 12px; /* Увеличен радиус границы */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Сильная тень */
+    width: 350px; /* Ширина формы увеличена */
+    text-align: center;
+}
 
-        .login-form button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+.login-form h2 {
+    margin-bottom: 20px;
+    color: #333; /* Заголовок более контрастный */
+    font-size: 1.8rem; /* Увеличен размер шрифта */
+    font-weight: 700; /* Жирный заголовок */
+}
 
-        .login-form button:hover {
-            background-color: #0056b3;
-        }
+.login-form h2 i {
+    margin-right: 10px; /* Отступ между иконкой и текстом */
+    color: #007bff; /* Цвет иконки "замок" */
+}
 
-        .login-form a {
-            display: block;
-            margin-top: 10px;
-            color: #007bff;
-            text-decoration: none;
-        }
+.login-form input {
+    width: 100%;
+    padding: 12px; /* Увеличено пространство для ввода */
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    transition: box-shadow 0.3s, border-color 0.3s; /* Добавлена плавная анимация */
+}
 
-        .login-form a:hover {
-            text-decoration: underline;
-        }
+.login-form input:focus {
+    border-color: #007bff; /* Цвет границы при фокусе */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); /* Подсветка при фокусе */
+    outline: none;
+}
+
+.login-form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px; /* Увеличен радиус кнопки */
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s; /* Анимация эффекта наведения */
+}
+
+.login-form button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.5); /* Подсветка при наведении */
+}
+
+.login-form a {
+    display: block;
+    margin-top: 15px;
+    color: #007bff;
+    text-decoration: none;
+    font-size: 1rem; /* Увеличен размер текста */
+}
+
+.login-form a:hover {
+    text-decoration: underline;
+    color: #0056b3; /* Цвет ссылки при наведении */
+}
