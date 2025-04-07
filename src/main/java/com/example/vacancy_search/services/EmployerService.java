@@ -18,4 +18,7 @@ public class EmployerService {
     public Employer findById(Long id){
         return employerRepo.findById(id).orElseThrow(()->new RuntimeException("Employer not found"));
     }
+    public Employer findByUsername(String username){
+        return employerRepo.findByUsername(username);
+    }
 }

@@ -10,7 +10,7 @@
 </head>
 <body>
 <!---------------------------ШАПКА---------------------------->
-<div th:replace="common/navbar :: navbar(user=${user},vacancy=null)"></div>
+<div th:replace="common/navbar :: navbar(user=${user},vacancy = null, resumes = ${resumes})"></div>
 <!------------------------------------------------------------>
 <div class="container">
     <h1>

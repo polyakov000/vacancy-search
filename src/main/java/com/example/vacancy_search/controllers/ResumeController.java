@@ -38,11 +38,13 @@ public class ResumeController {
     protected void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
     }
-
+    @Transactional
     @GetMapping("/create")
     public String resume(Model model) {
         model.addAttribute("resume", new Resume());
         model.addAttribute("user",userService.findByUsername(SecurityUtils.getCurrentUsername()));
+        List<Resume> resumes = resumeService.findAllByCandidate((Candidate) userService.findByUsername(SecurityUtils.getCurrentUsername()));
+        model.addAttribute("resumes",resumes);
         return "resume";
     }
 
@@ -97,9 +99,9 @@ public class ResumeController {
     @Transactional
     public String resumeWatch(Model model) {
         Candidate candidate = (Candidate) userService.findByUsername(SecurityUtils.getCurrentUsername());
-        List<Resume> resume = resumeService.findAllByCandidate(candidate);
+        List<Resume> resumes = resumeService.findAllByCandidate(candidate);
         User user = userService.findByUsername(SecurityUtils.getCurrentUsername());
-        model.addAttribute("resumes", resume);
+        model.addAttribute("resumes", resumes);
         model.addAttribute("user",user);
         return "resumeWatch";
     }
@@ -138,6 +140,7 @@ public class ResumeController {
 
         return "redirect:/resume/watch";
     }
+
 
 
 }

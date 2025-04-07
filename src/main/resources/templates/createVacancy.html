@@ -5,11 +5,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="stylesheet" href="/css/createVacancy.css">
+    <link rel="stylesheet" href="">
 </head>
 <body>
 <!---------------------------ШАПКА---------------------------->
-<div th:replace="common/navbar :: navbar(user=${user},vacancy = null)"></div>
+<div th:replace="common/navbar :: navbar(user=${user},vacancy = null, resumes = ${resumes})"></div>
 <!------------------------------------------------------------>
 <!-- Основное содержимое -->
 <div class="main-content">

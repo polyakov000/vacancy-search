@@ -1,4 +1,4 @@
-<div th:fragment="navbar(user,vacancy)">
+<div th:fragment="navbar(user,vacancy,resumes)">
     <nav class="navbar navbar-custom">
         <div class="container-fluid">
             <a class="navbar-brand" th:href="@{/user/profile}">
@@ -19,13 +19,19 @@
                     </a>
                 </li>
                 <li class="nav-item dropdown" th:if="${user.role == T(com.example.vacancy_search.domain.Roles).CANDIDATE}">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownResume" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#"
+                       id="navbarDropdownResume"
+                       role="button"
+                       data-toggle="dropdown"
+                       aria-haspopup="true"
+                       aria-expanded="false"
+                       onclick="return false;">
                         <i class="fas fa-folder-open icon"></i>
                         Мои резюме
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownResume">
                         <a class="dropdown-item" th:each="resume : ${resumes}"
-                           th:href="@{/resume/watch(id=${resume.ID})}"
+                           th:href="@{/resume/watch}"
                            th:text="${resume.position}"></a>
                     </div>
                 </li>
